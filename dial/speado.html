@@ -1,0 +1,34 @@
+<html>
+<head>
+<style>
+  .needle {
+      width: 36%;
+      height: 4.5%;
+      position: absolute;
+      left: 13%;
+      bottom: 70%;
+      -webkit-transform-origin: 91.5% 50%;
+      -moz-transform-origin: 91.5% 50%;
+      -o-transform-origin: 91.5% 50%;
+      transform-origin: 91.5% 50%;
+  }
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#needle').animate({
+        borderSpacing: 180
+    }, {
+        step: function (now, fx) {
+            $(this).css('-webkit-transform', 'rotate(' + now + 'deg)');
+            $(this).css('-moz-transform', 'rotate(' + now + 'deg)');
+            $(this).css('transform', 'rotate(' + now + 'deg)');
+        },
+        duration: 1000
+    }, 'swing');
+  }
+</script>
+</head>
+<body>
+  <img class="needle" id="needle" alt="" src="https://www.discovery.co.za/st_discworld/images/discWorld/dashboard/revcounter-needle.png" />
+</body>
