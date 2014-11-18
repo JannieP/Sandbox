@@ -13,7 +13,10 @@
       transform-origin: 91.5% 50%;
   }
 </style>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+</head>
+<body>
 <script>
   $(document).ready(function() {
     $('#needle').animate({
@@ -26,9 +29,7 @@
         },
         duration: 1000
     }, 'swing');
-  }
+  });
 </script>
-</head>
-<body>
   <img class="needle" id="needle" alt="" src="https://www.discovery.co.za/st_discworld/images/discWorld/dashboard/revcounter-needle.png" />
 </body>
