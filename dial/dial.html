@@ -1,0 +1,125 @@
+<html>
+<head>
+<style>
+.dial {
+	width: 150px;
+	height: 150px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%); /* Safari and Chrome */
+	-moz-transform: translate(-50%, -50%); /* Firefox */
+	-o-transform: translate(-50%, -50%);  /* Opera */
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+.dialtop {
+	position: absolute;
+	width: 50%;
+	height: 50%;
+	top: 0%;
+	left: 25%;
+	border-bottom: 1px solid #DCDADA;
+	text-align: center;
+}
+.dialpoints {
+	font-size: 20px;
+	position: absolute;
+	bottom: 5%;
+	left: 50%;
+	-webkit-transform: translateX(-50%); /* Safari and Chrome */
+	-moz-transform: translateX(-50%); /* Firefox */
+	-o-transform: translateX(-50%);  /* Opera */
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+.maxdialpoints {
+	font-size: 14px;
+	color: #6D6E71;
+	position: absolute;
+	bottom: -35%;
+	left: 50%;
+	-webkit-transform: translateX(-50%); /* Safari and Chrome */
+	-moz-transform: translateX(-50%); /* Firefox */
+	-o-transform: translateX(-50%);  /* Opera */
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+.dialColor {
+	display: none;
+}
+
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+</head>
+<body>
+<script>
+  $(document).ready(function() {
+     var dialScale = 1;
+    function animateDial(endPercent, canvas, context, x, y, curPerc, circle, startAngle, current) {
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		// background inner
+		context.beginPath();
+		context.arc(x, y, (65 * dialScale), 0, 2 * Math.PI, false);
+		context.lineWidth = 1;
+		context.stroke();
+		// background outer
+		context.beginPath();
+		context.arc(x, y, (75 * dialScale), 0, 2 * Math.PI, false);
+		context.lineWidth = 1;
+		context.stroke();
+		// line
+		context.lineWidth = (10 * dialScale);
+		context.beginPath();
+		context.arc(x, y, (70 * dialScale), -(startAngle), ((circle) * current) - startAngle, false);
+		context.stroke();
+		curPerc++;
+		if (x, y, context, canvas, curPerc <= endPercent) {
+			requestAnimationFrame(function() {
+				animateDial(endPercent, canvas, context, x, y, curPerc, circle, startAngle, curPerc / 100)
+			});
+		}
+
+	}
+	function animateDials(dial) {
+		if (!dial.hasClass("dialanimated")) {
+			dial.addClass("dialanimated");
+			dial.append("<canvas></canvas>");
+			var pointsObj = dial.find(".dialpoints");
+			var maxPointsObj = dial.find(".maxdialpoints");
+			var maxPoints = maxPointsObj.text().trim();
+			var canvas = dial.find("canvas")[0];
+			var context = canvas.getContext("2d");
+			var points = pointsObj.text().trim();
+			var endPercent = (points / maxPoints) * 100;
+			var color = dial.find(".dialColor").text().trim();
+			pointsObj.css("color", color)
+			canvas.width = dial.width();
+			canvas.height = dial.height();
+			context.strokeStyle = color;
+			var x = canvas.width / 2;
+			var y = canvas.height / 2;
+			var curPerc = 0;
+			var circle = 2 * Math.PI;
+			var startAngle = 1.5 * Math.PI;
+			animateDial(endPercent, canvas, context, x, y, curPerc, circle, startAngle);
+
+		}
+	}
+	
+	$(".dial").each(function() {
+		animateDials($(this));
+	});
+  });
+</script>
+<div class="dial">
+	<div class="dialtop">
+		<span class="dialpoints">50</span> 
+		<span class="maxdialpoints">150</span>
+		<span class="dialColor">#FCB800</span>
+	</div>
+</div>
+</body>
